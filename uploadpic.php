@@ -33,6 +33,7 @@ $thumb -> Thumbfilename = 'newfile.jpg';
 //$thumb -> Thumbsaveas ="png";  
 $thumb -> Createthumb($old_file,'file');
 
+
 use Aws\S3\S3Client;
 $s3 = new S3Client([
     'version'     => 'latest',
@@ -57,6 +58,11 @@ $result = $s3->putObject(array(
     'StorageClass' => 'STANDARD'
  
 ));
+
+//if(unlink("newfile.jpg")) echo '##'; else echo "44";
+
+
+
 
 
 ?>
