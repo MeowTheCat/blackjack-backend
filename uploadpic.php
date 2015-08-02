@@ -33,9 +33,7 @@ $old_file = 'file.jpg';
 //Loppppppppppppp.....
 while ($row = $res->fetch_assoc()) 
 { 
-    $image_url = str_replace("wid=300","wid=600",$row['image_url']);
-    copy($image_url, $old_file );
-
+    copy(str_replace("wid=300","wid=600",$row['image_url']), $old_file );
 
     $thumb = new easyphpthumbnail;
 
@@ -68,7 +66,7 @@ while ($row = $res->fetch_assoc())
         'StorageClass' => 'STANDARD'
      
     ));
-    echo $s3_result['ObjectURL'] . "\n";
+    //echo $s3_result['ObjectURL'] . "\n";
    }
   catch (S3Exception $e) 
     {
@@ -77,17 +75,20 @@ while ($row = $res->fetch_assoc())
 
     unlink("newfile.jpg");
 
+
+   $s3_url = "http://s3.amazonaws.com/lumiaomiao-macy/".$row['sku_number'];
+
   
  
-    $query = 'replace into final (product_id, sku_number, product_url,sale_price,retail_price, brand, attribute_2) values ("'.$row['product_id'].'","'.$row['sku_number'].'","'.$row['product_url'].'",'.$row['sale_price'].','.$row['retail_price'].',"'.$row['brand'].'","'.$row['attribute_2'].'")';
+    $query = 'replace into final (product_id, sku_number, product_url,sale_price,retail_price, brand, attribute_2,s3_url) values ("'.$row['product_id'].'","'.$row['sku_number'].'","'.$row['product_url'].'",'.$row['sale_price'].','.$row['retail_price'].',"'.$row['brand'].'","'.$row['attribute_2'].'","'.$s3_url.'" )';
     
-    if(!$mysqli->query($query)) {echo "error :".$query; return;}
+    if(!$mysqli->query($query)) {echo "error :".$query; }
 
 
     $n++;
 
 
-    //echo $n."\n";
+    echo $n."\n";
     
  
 
