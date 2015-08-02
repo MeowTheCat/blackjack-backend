@@ -33,12 +33,20 @@ $old_file = 'file.jpg';
 //Loppppppppppppp.....
 while ($row = $res->fetch_assoc()) 
 { 
+    $n++;
+    if($n <500 ) continue;
+
+    echo $n."\n";
+
     copy(str_replace("wid=300","wid=600",$row['image_url']), $old_file );
 
     $thumb = new easyphpthumbnail;
 
     $xSize = getimagesize($old_file)[0];
     $ySize = getimagesize($old_file)[1];
+   
+    if($xSize<=0 | $ySize <=0) continue;
+    echo $row['product_id']."\n";
 
     $crop_left = 0;
     $crop_right = 0;
@@ -53,8 +61,12 @@ while ($row = $res->fetch_assoc())
     $thumb -> Thumbsize = 100;
     $thumb -> Percentage = true;
     $thumb -> Thumbfilename = 'newfile.jpg';
-    $thumb -> Createthumb($old_file,'file');
-
+    try { $thumb -> Createthumb($old_file,'file'); }
+    catch (Exception $e) 
+    {
+       continue;
+    }
+    if (!file_exists('newfile.jpg')) continue;
 
     // Upload a file.
   try{
@@ -71,6 +83,7 @@ while ($row = $res->fetch_assoc())
   catch (S3Exception $e) 
     {
         echo $e->getMessage() . "\n";
+        continue;
     }
 
     unlink("newfile.jpg");
@@ -84,13 +97,8 @@ while ($row = $res->fetch_assoc())
     
     if(!$mysqli->query($query)) {echo "error :".$query; }
 
-
-    $n++;
-
-
-    echo $n."\n";
     
- 
+     
 
 } //loop..............
 
