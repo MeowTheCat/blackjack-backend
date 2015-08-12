@@ -15,14 +15,12 @@ $s3 = new S3Client([
 ]);
 
 
-
-
 $mysqli = new mysqli("deal.cpg8bvjgkezo.us-east-1.rds.amazonaws.com", "root", "Linshuizhaohua!", "blackjack");
 if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
 
-$res = $mysqli->query("select  product_id, sku_number, product_url, image_url, sale_price, retail_price, brand, attribute_2 from raw where availability='in-stock' and sale_price>0 and sale_price/retail_price <=0.7 and attribute_2 in ('dress','jacket','coat', 'top','skirt','suit','sweater') group by sku_number ");
+$res = $mysqli->query("select  a.image_url, a.sku_number from raw a join image b on a.sku_number=b.sku_number where b.s3_url is null group by a.sku_number; ");
 
 
 $res->data_seek(0);
@@ -34,9 +32,8 @@ $old_file = 'file.jpg';
 while ($row = $res->fetch_assoc()) 
 { 
     $n++;
-    if($n <500 ) continue;
-
-    echo $n."\n";
+ 
+    echo "start getting image".$n."\n";
 
     copy(str_replace("wid=300","wid=600",$row['image_url']), $old_file );
 
@@ -46,7 +43,7 @@ while ($row = $res->fetch_assoc())
     $ySize = getimagesize($old_file)[1];
    
     if($xSize<=0 | $ySize <=0) continue;
-    echo $row['product_id']."\n";
+    echo $row['sku_number']."\n";
 
     $crop_left = 0;
     $crop_right = 0;
@@ -57,13 +54,15 @@ while ($row = $res->fetch_assoc())
     if($ySize/$xSize < 3.5/2.5) { $crop_left = ($xSize - $ySize*2.5/3.5)/2; $crop_right =($xSize - $ySize*2.5/3.5)/2;}
     $thumb -> Cropimage = array(1,1,$crop_left,$crop_right,$crop_top,$crop_bottom);
  
-    $thumb -> Borderpng = 'frame_red.png';
+    $thumb -> Borderpng = 'frame_red_left.png';
     $thumb -> Thumbsize = 100;
     $thumb -> Percentage = true;
     $thumb -> Thumbfilename = 'newfile.jpg';
     try { $thumb -> Createthumb($old_file,'file'); }
     catch (Exception $e) 
     {
+       echo "unable to get image for sku: ";
+       echo $row['sku_number']."\n";
        continue;
     }
     if (!file_exists('newfile.jpg')) continue;
@@ -82,6 +81,7 @@ while ($row = $res->fetch_assoc())
    }
   catch (S3Exception $e) 
     {
+        echo "unable to copy to s3 ";
         echo $e->getMessage() . "\n";
         continue;
     }
@@ -90,15 +90,11 @@ while ($row = $res->fetch_assoc())
 
 
    $s3_url = "http://s3.amazonaws.com/lumiaomiao-macy/".$row['sku_number'];
-
   
  
-    $query = 'replace into final (product_id, sku_number, product_url,sale_price,retail_price, brand, attribute_2,s3_url) values ("'.$row['product_id'].'","'.$row['sku_number'].'","'.$row['product_url'].'",'.$row['sale_price'].','.$row['retail_price'].',"'.$row['brand'].'","'.$row['attribute_2'].'","'.$s3_url.'" )';
+    $query = 'update image set s3_url = "'. $s3_url. '" where sku_number = "'.$row['sku_number'].'" ;';
     
     if(!$mysqli->query($query)) {echo "error :".$query; }
-
-    
-     
 
 } //loop..............
 
