@@ -49,7 +49,8 @@ CREATE TABLE `final` (
   `retail_price` float DEFAULT NULL,
   `brand` varchar(255) DEFAULT NULL,
   `attribute_2` varchar(128) DEFAULT NULL,
-  `seller` varchar(255) DEFAULT 'Macy',
-  `update_time` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`product_id`)
+  `attribute_3` varchar(128) DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`product_id`),
+  KEY `sku_number` (`sku_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
