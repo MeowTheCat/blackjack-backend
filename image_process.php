@@ -35,7 +35,7 @@ while ($row = $res->fetch_assoc())
  
     echo "start getting image".$n."\n";
 
-    copy(str_replace("wid=300","wid=600",$row['image_url']), $old_file );
+    copy(str_replace("wid=300","wid=800",$row['image_url']), $old_file );
 
     $thumb = new easyphpthumbnail;
 
@@ -70,7 +70,7 @@ while ($row = $res->fetch_assoc())
     // Upload a file.
   try{
     $s3_result = $s3->putObject(array(
-        'Bucket'       => 'lumiaomiao-macy',
+        'Bucket'       => 'miaomimi-macy',
         'Key'          => $row['sku_number'],
         'SourceFile'   => 'newfile.jpg',
         'ContentType'  => 'image/jpg',
@@ -79,7 +79,7 @@ while ($row = $res->fetch_assoc())
     ));
     //echo $s3_result['ObjectURL'] . "\n";
    }
-  catch (S3Exception $e) 
+  catch (Exception $e) 
     {
         echo "unable to copy to s3 ";
         echo $e->getMessage() . "\n";
@@ -89,7 +89,7 @@ while ($row = $res->fetch_assoc())
     unlink("newfile.jpg");
 
 
-   $s3_url = "http://s3.amazonaws.com/lumiaomiao-macy/".$row['sku_number'];
+   $s3_url = "http://s3.amazonaws.com/miaomimi-macy/".$row['sku_number'];
   
  
     $query = 'update image set s3_url = "'. $s3_url. '" where sku_number = "'.$row['sku_number'].'" ;';
