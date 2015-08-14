@@ -10,8 +10,7 @@ var connection = mysql.createConnection({
   database : 'blackjack'
 });
 
-console.log('prepare' );
-
+console.log(event.url);
 connection.connect(function(err) {
   if (err) {
     context.fail (err);
