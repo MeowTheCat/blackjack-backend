@@ -1,3 +1,10 @@
+CREATE TABLE `image` (
+  `sku_number` varchar(64) NOT NULL DEFAULT '',
+  `s3_url` varchar(2000) DEFAULT NULL,
+  PRIMARY KEY (`sku_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
 CREATE TABLE `raw` (
   `product_id` varchar(32) DEFAULT NULL,
   `product_name` varchar(255) DEFAULT NULL,
@@ -37,10 +44,13 @@ CREATE TABLE `raw` (
   `attribute_8` varchar(128) DEFAULT NULL,
   `attribute_9` varchar(128) DEFAULT NULL,
   `attribute_10` varchar(128) DEFAULT NULL,
-  `modification` char(1) DEFAULT NULL
+  `modification` char(1) DEFAULT NULL,
+  KEY `sku_number` (`sku_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `final` (
+
+
+CREATE TABLE `clothing` (
   `product_id` varchar(32) NOT NULL DEFAULT '',
   `sku_number` varchar(64) DEFAULT NULL,
   `product_url` varchar(2000) DEFAULT NULL,
@@ -51,6 +61,13 @@ CREATE TABLE `final` (
   `attribute_2` varchar(128) DEFAULT NULL,
   `attribute_3` varchar(128) DEFAULT NULL,
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `s` tinyint(1) DEFAULT '0',
+  `m` tinyint(1) DEFAULT '0',
+  `l` tinyint(1) DEFAULT '0',
+  `xl` tinyint(1) DEFAULT '0',
+  `xs` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`product_id`),
   KEY `sku_number` (`sku_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+

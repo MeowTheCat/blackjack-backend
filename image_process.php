@@ -22,6 +22,8 @@ if ($mysqli->connect_errno) {
 
 $res = $mysqli->query("select  a.image_url, a.sku_number from raw a join image b on a.sku_number=b.sku_number where b.s3_url is null group by a.sku_number; ");
 
+ $row_cnt = $res->num_rows;
+echo  $row_cnt." new records without images \n\n\n";
 
 $res->data_seek(0);
 $n=0;

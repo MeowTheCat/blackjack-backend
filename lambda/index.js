@@ -29,7 +29,7 @@ else
   for(var i=2; i<= arr.length-1; i++) where = where + ' or ' + arr[i] + ' is true ';
 }
 
-var query = 'select CEILING(retail_price) retail_price, CEILING(sale_price) sale_price,s3_url,product_url,brand,attribute_2 from final ' + where + ' order by rand() limit 1 ' ;
+var query = 'select CEILING(retail_price) retail_price, CEILING(sale_price) sale_price,s3_url,product_url,brand,attribute_2 from clothing ' + where + ' order by rand() limit 1 ' ;
 
 
 var result;
