@@ -35,7 +35,7 @@ while ($row = $res->fetch_assoc())
 { 
     $n++;
  
-    echo "start getting image".$n."\n";
+    echo "start getting image".$n."                         ";
 
     copy(str_replace("wid=300","wid=800",$row['image_url']), $old_file );
 
@@ -79,7 +79,6 @@ while ($row = $res->fetch_assoc())
         'StorageClass' => 'STANDARD'
      
     ));
-    //echo $s3_result['ObjectURL'] . "\n";
    }
   catch (Exception $e) 
     {
@@ -88,15 +87,14 @@ while ($row = $res->fetch_assoc())
         continue;
     }
 
-    unlink("newfile.jpg");
-
-
-   $s3_url = "http://s3.amazonaws.com/miaomimi-macy/".$row['sku_number'];
-  
- 
+    $s3_url = "http://s3.amazonaws.com/miaomimi-macy/".$row['sku_number'];
     $query = 'update image set s3_url = "'. $s3_url. '" where sku_number = "'.$row['sku_number'].'" ;';
-    
-    if(!$mysqli->query($query)) {echo "error :".$query; }
+    if(!$mysqli->query($query))
+     {	
+     	echo "error :".$query;  echo $mysqli->error;
+	 }
+	 printf("-----------------\n");
+    unlink("newfile.jpg");
 
 } //loop..............
 

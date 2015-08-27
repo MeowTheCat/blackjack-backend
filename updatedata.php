@@ -31,13 +31,13 @@ drop table clothing;
 
 Rename Table clothing_tmp TO clothing; ";
 
-
+$queries = explode(";", $query);
     
-$result = $mysqli->multi_query($query);
-echo $result;
-
-     
-
-
+for($i=0;$i<(sizeof($queries)-1);$i++)
+{
+	$mysqli->query($queries[$i]);
+	echo $mysqli->error;
+	printf("-----------------\n");
+}  
 
 ?>
