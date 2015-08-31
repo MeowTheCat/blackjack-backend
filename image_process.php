@@ -20,6 +20,8 @@ if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
 
+$res = $mysqli->query("insert ignore into image(sku_number) select distinct sku_number from raw; ");
+
 $res = $mysqli->query("select  a.image_url, a.sku_number from raw a join image b on a.sku_number=b.sku_number where b.s3_url is null group by a.sku_number; ");
 
  $row_cnt = $res->num_rows;

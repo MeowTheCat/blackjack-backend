@@ -18,9 +18,21 @@ LOAD DATA local INFILE '/users/miaomiao/downloads/3184_3257324_25993852_cmp.txt'
    IGNORE 1 LINES
 ;
 
-delete from raw where availability !='in-stock' or sale_price <=0 or sale_price is null or sale_price/retail_price > 0.6 or attribute_2 not in ('dress','jacket','coat', 'top','skirt','suit','sweater');
+LOAD DATA local INFILE '/users/miaomiao/downloads/3184_3257324_25993869_cmp.txt'
+    INTO TABLE raw
+  COLUMNS TERMINATED BY '|'       
+   LINES  TERMINATED BY '\n' 
+   IGNORE 1 LINES
+;
 
-insert ignore into image(sku_number) select distinct sku_number from raw;	 ";
+delete from raw where availability !='in-stock' or sale_price <=0 or sale_price is null or attribute_2 not in ('dress','jacket','coat', 'top','skirt','suit','sweater','handbag','sunglasses');
+
+delete from raw where sale_price/retail_price > 0.6;
+
+delete from raw where sale_price/retail_price > 0.5 and attribute_2 = 'top';
+delete from raw where sale_price/retail_price > 0.4 and attribute_2 = 'sunglasses';
+
+";
 
     
 $queries = explode(";", $query);
