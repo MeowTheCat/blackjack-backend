@@ -13,19 +13,18 @@ var params = {
   Destination: { /* required */
     
     ToAddresses: [
-      'windbell9@gmail.com',
+      event.email,
       /* more items */
     ]
   },
   Message: { /* required */
     Body: { /* required */
       Html: {
-        Data: event.url + '<img src="http://s3.amazonaws.com/miaomimi-macy/2078522" alt="Product Image" style="width:250px;height:350px;">',
-       
+        Data: '<a href="'+event.url+'" target="_blank">'+'<img src="http://s3.amazonaws.com/miaomimi-keep/view.png" width="104" height="30" alt="View">' + '</a>' + '<br/><br/>'+ '<img src="' + event.image + '" alt="Product Image" style="width:250px;height:350px;">',  
       }
     },
     Subject: { /* required */
-      Data: 'The Calvin Klein Dress From Crazy Sale', /* required */
+      Data: 'The ' + event.brand + ' ' + event.category +' From Crazy Sale', /* required */
       //Charset: 'UTF－8'
     }
   },
@@ -40,10 +39,8 @@ var params = {
 ses.sendEmail(params, function(err, data) {
   var result;
   if (err) {console.log(err, err.stack); context.fail (err);} // an error occurred
-  else     {console.log(data);  result = {"result": event.score}; context.succeed(result); }         // successful response
+  else     {console.log(data);   context.succeed("1"); }         // successful response
 });
-
-
 
 
    
