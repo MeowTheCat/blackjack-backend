@@ -20,7 +20,7 @@ LOAD DATA local INFILE '/users/miaomiao/downloads/3184_3257324_25993852_cmp.txt'
 
 
 delete from raw where availability !='in-stock' or sale_price <=0 or sale_price is null or attribute_2 not in ('dress','jacket','coat', 'top','skirt','suit','sweater');
-delete from raw where sale_price/retail_price > 0.8;
+delete from raw where sale_price/retail_price > 0.6;
 delete from raw where sale_price/retail_price > 0.6 and attribute_2 in ('dress', 'skirt','suit');
 delete from raw where sale_price/retail_price > 0.5 and attribute_2 = 'top';
 
