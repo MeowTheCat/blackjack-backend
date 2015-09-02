@@ -47,7 +47,8 @@ while ($row = $res->fetch_assoc())
     $ySize = getimagesize($old_file)[1];
    
     if($xSize<=0 | $ySize <=0) continue;
-    echo $row['sku_number']."\n";
+    $z = $ySize/$xSize;
+    echo $row['sku_number']."              ".$z."\n";
 
     $crop_left = 0;
     $crop_right = 0;

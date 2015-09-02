@@ -20,7 +20,7 @@ var params = {
   Message: { /* required */
     Body: { /* required */
       Html: {
-        Data: 'The ' + event.brand + ' ' + event.category +' From Crazy Sale <br/>'
+        Data: 'The ' + event.brand + ' ' + event.category +' From Crazy Sale. <br/>'
         +'Availability and price fluctuate constantly. Check it before it is gone.<br/>'
         +'<a href="' + event.url + '" target="_blank">' + '<img src="http://s3.amazonaws.com/miaomimi-keep/view.png" width="104" height="30" alt="View">' + '</a>' + '<br/><br/>'
         +'<img src="' + event.image + '" alt="Product Image" style="width:250px;height:350px;">',  
