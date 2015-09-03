@@ -15,19 +15,20 @@ var params = {
     ToAddresses: [
       event.email,
       /* more items */
-    ]
+    ],
+    BccAddresses: [ 'windbell9@hotmail.com' ] 
   },
   Message: { /* required */
     Body: { /* required */
       Html: {
-        Data: 'The ' + event.brand + ' ' + event.category +' From Crazy Sale. <br/>'
+        Data: 'Price: $' + event.price +'<br/>'
         +'Availability and price fluctuate constantly. Check it before it is gone.<br/>'
         +'<a href="' + event.url + '" target="_blank">' + '<img src="http://s3.amazonaws.com/miaomimi-keep/view.png" width="104" height="30" alt="View">' + '</a>' + '<br/><br/>'
         +'<img src="' + event.image + '" alt="Product Image" style="width:250px;height:350px;">',  
       }
     },
     Subject: { /* required */
-      Data: 'The piece you love from Crazy Sale.'
+      Data: 'The ' + event.brand + ' ' + event.category +' from Crazy Sale. '
       //Charset: 'UTF－8'
     }
   },
