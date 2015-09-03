@@ -45,7 +45,7 @@ connection.query(query, function(err, rows, fields) {
 });
 
 
-connection.end();
+connection.end(function(err) { console.log("ending error")});
 
 
 }
