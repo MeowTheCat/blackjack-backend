@@ -28,11 +28,11 @@ var params = {
       }
     },
     Subject: { /* required */
-      Data: 'The ' + event.brand + ' ' + event.category +' from Crazy Sale. '
+      Data: 'The ' + event.brand + ' ' + event.category +' you love. '
       //Charset: 'UTF－8'
     }
   },
-  Source: 'Crazy Sale<CrazySale@alicewonderland.net>', /* required */
+  Source: 'Fashion Casino<fashioncollect@alicewonderland.net>', /* required */
   ReplyToAddresses: [
     'windbell9@gmail.com',
     /* more items */
@@ -40,12 +40,15 @@ var params = {
   ReturnPath: 'windbell9@gmail.com'
  
 };
-ses.sendEmail(params, function(err, data) {
-  var result;
-  if (err) {console.log(err, err.stack); context.fail (err);} // an error occurred
-  else     {console.log(data);   context.succeed("1"); }         // successful response
-});
-
+if(typeof event.price === "undefined") context.fail ("is this a test?");
+else
+{
+  ses.sendEmail(params, function(err, data) {
+    var result;
+    if (err) {console.log(err, err.stack); context.fail (err);} // an error occurred
+    else     {console.log(data);   context.succeed("1"); }         // successful response
+  });
+}
 
    
 }
