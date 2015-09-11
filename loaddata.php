@@ -34,11 +34,11 @@ delete from raw where availability !='in-stock' or sale_price <=0 or sale_price 
 
 delete from raw where sale_price/retail_price > 0.7;
 
-delete from raw where sale_price/retail_price > 0.55 and primary_category = 'shoes';
+delete from raw where sale_price/retail_price > 0.6 and primary_category = 'shoes';
 delete from raw where sale_price/retail_price > 0.6 and attribute_2 in ('dress', 'skirt','suit');
 delete from raw where sale_price/retail_price > 0.4 and attribute_2 = 'top';
 
-
+select count(distinct sku_number) from raw;
 
 ";
 
