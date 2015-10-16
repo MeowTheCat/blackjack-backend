@@ -90,7 +90,7 @@ while ($row = $res->fetch_assoc())
         continue;
     }
 
-    $s3_url = "http://s3.amazonaws.com/miaomimi-macy/".$row['sku_number'];
+    $s3_url = "https://s3.amazonaws.com/miaomimi-macy/".$row['sku_number'];
     $query = 'update image set s3_url = "'. $s3_url. '" where sku_number = "'.$row['sku_number'].'" ;';
     if(!$mysqli->query($query))
      {	
